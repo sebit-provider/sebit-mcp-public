@@ -1,36 +1,37 @@
 {
   "name": "sebit-mcp",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/mcp-server.js",
   "type": "commonjs",
-
   "bin": {
     "sebit-mcp": "bin/sebit-mcp.js"
   },
-  "files": ["dist", "bin", "package.json", "README.md", "LICENSE"],
-
+  "files": [
+    "dist",
+    "bin",
+    "package.json",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "smoke": "ts-node --cwd-mode src/tests/sebit_smoke_test.ts",
     "smoke:all": "ts-node src/tests/all_smoke.ts",
     "rest": "ts-node src/server.ts",
     "mcp": "ts-node src/mcp-server.ts",
     "build": "tsc -p .",
-    "prepublishOnly": "npm run build",
+    "prepublishOnly": "echo skip",
     "mcp:dist": "node dist/mcp-server.js"
   },
-
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
-
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.17.3",
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "zod": "^3.25.76"
   },
-
   "devDependencies": {
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
