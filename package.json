@@ -1,8 +1,9 @@
 {
-  "name": "@sebit/mcp",
+  "name": "sebit-mcp-public",
   "version": "1.0.3",
   "main": "dist/mcp-server.js",
   "type": "commonjs",
+  "license": "MIT",
   "bin": {
     "sebit-mcp": "bin/sebit-mcp.js"
   },
