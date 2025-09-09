@@ -1,5 +1,5 @@
 # SEBIT-MCP Models
-
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 회계/재무 특화 도메인 프레임워크(MCP), **SEBIT (Systematic Engineered Binancial Intelligence & Tactics)** 모델 집합입니다.  
 총 12개의 핵심 모델로 구성되어 있으며, 각 모델은 고유의 입력값(JSON)과 계산 로직을 기반으로 동작합니다.
 
