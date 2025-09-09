@@ -1,6 +1,6 @@
 {
   "name": "@sebit/mcp",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "dist/mcp-server.js",
   "type": "commonjs",
   "bin": {
@@ -22,7 +22,13 @@
     "prepublishOnly": "echo skip",
     "mcp:dist": "node dist/mcp-server.js"
   },
-  "keywords": ["accounting", "finance", "mcp", "sebit", "agi"],
+  "keywords": [
+    "accounting",
+    "finance",
+    "mcp",
+    "sebit",
+    "agi"
+  ],
   "author": "",
   "license": "ISC",
   "description": "",
