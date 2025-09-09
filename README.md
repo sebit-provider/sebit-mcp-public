@@ -1,5 +1,12 @@
 # SEBIT-MCP Models
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)  
+[![npm version](https://img.shields.io/npm/v/sebit-mcp-public)](https://www.npmjs.com/package/sebit-mcp-public)  
+[![npm downloads](https://img.shields.io/npm/dt/sebit-mcp-public)](https://www.npmjs.com/package/sebit-mcp-public)  
+[![GitHub stars](https://img.shields.io/github/stars/sebit-provider/sebit-mcp-public?style=social)](https://github.com/sebit-provider/sebit-mcp-public/stargazers)  
+[![GitHub issues](https://img.shields.io/github/issues/sebit-provider/sebit-mcp-public)](https://github.com/sebit-provider/sebit-mcp-public/issues)  
+[![Last commit](https://img.shields.io/github/last-commit/sebit-provider/sebit-mcp-public)](https://github.com/sebit-provider/sebit-mcp-public/commits/main)
+
+
 회계/재무 특화 도메인 프레임워크(MCP), **SEBIT (Systematic Engineered Binancial Intelligence & Tactics)** 모델 집합입니다.  
 총 12개의 핵심 모델로 구성되어 있으며, 각 모델은 고유의 입력값(JSON)과 계산 로직을 기반으로 동작합니다.
 
