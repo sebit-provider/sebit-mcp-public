@@ -7,7 +7,7 @@
 
 ## 🚀 설치 및 실행
 ```bash
-git clone https://github.com/sebit-provider/dist/sebit-mcp-public.git
+git clone https://github.com/sebit-provider/sebit-mcp-public.git
 cd sebit-mcp-public
 npm install sebit-mcp-public
 node dist/mcp-server.js
@@ -21,7 +21,7 @@ node dist/mcp-server.js
   "mcpServers": {
     "sebit-mcp": {
       "command": "node",
-      "args": ["C:/Users/user/sebit-mcp-public/mcp-server.js"],
+      "args": ["C:/Users/user/sebit-mcp-public/dist/mcp-server.js"],
       "cwd": "C:/Users/user/sebit-mcp-public"
     }
   }
