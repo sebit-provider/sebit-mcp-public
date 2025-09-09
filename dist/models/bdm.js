@@ -1,90 +1,50 @@
 "use strict";
-// =============================
-// BDM: Bond Discount/Premium Amortization (유효이자법 1기간)
-// - 금액 문자열("1,000") 파싱 수리: comma/underscore/space 제거
-// - 퍼센트/문자열 파싱(%, 콤마 허용)
-// - 연이율 입력 + periodsPerYear 지원
-// =============================
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.runBDM = runBDM;
-// ---- utils ----
-/** 금액/일반 숫자: "1,000" " 980 " "1_234" → 1000/980/1234 */
-const toNumberLoose = (x, d = 0) => {
-    if (x == null)
-        return d;
-    if (typeof x === 'string') {
-        const cleaned = x.trim().replace(/[,_\s]/g, '');
-        const v = Number(cleaned);
-        return Number.isFinite(v) ? v : d;
-    }
-    const v = Number(x);
-    return Number.isFinite(v) ? v : d;
-};
-/** 퍼센트/소수: "2.5%" "0.025" 2.5 → 0.025 */
-const toFrac = (x) => {
-    if (x == null)
-        return 0;
-    if (typeof x === 'string') {
-        const cleaned = x.trim().replace(/,/g, '').replace(/%/g, '');
-        const v = Number(cleaned);
-        if (!Number.isFinite(v))
-            return 0;
-        return v > 1 ? v / 100 : v;
-    }
-    const v = Number(x);
-    return Number.isFinite(v) ? (v > 1 ? v / 100 : v) : 0;
-};
-// 연이율 → 기간이율 변환 도우미
-const annualToPerPeriod = (annual, periodsPerYear) => {
-    const a = toFrac(annual);
-    return periodsPerYear > 0 ? a / periodsPerYear : NaN;
-};
-// 별칭을 표준 키로 정규화
-function aliasToBDM(x) {
-    const py = toNumberLoose(x.periodsPerYear, NaN);
-    const cPerA = annualToPerPeriod(x.couponRateAnnual, py);
-    const yPerA = annualToPerPeriod(x.yieldRateAnnual, py);
-    const couponAlt = toFrac(x.couponPct);
-    const yieldAlt = toFrac(x.yieldPct);
-    return {
-        carryingAmountStart: toNumberLoose(x.carryingAmountStart, NaN),
-        faceValue: toNumberLoose(x.faceValue, NaN),
-        couponRatePerPeriod: (Number.isFinite(cPerA) ? cPerA : NaN) ||
-            toFrac(x.couponRatePerPeriod) ||
-            couponAlt || 0,
-        yieldRatePerPeriod: (Number.isFinite(yPerA) ? yPerA : NaN) ||
-            toFrac(x.yieldRatePerPeriod) ||
-            yieldAlt || 0
-    };
-}
-// ---- core ----
+const clamp = (x, a, b) => Math.min(b, Math.max(a, x));
+const roundTo = (x, s = 1e-6) => Math.round(x / s) * s;
+const nz = (x, d = 0) => (Number.isFinite(+x) ? +x : d);
 function runBDM(input) {
-    const a = aliasToBDM(input);
-    const carryingAmountStart = toNumberLoose(a.carryingAmountStart, 0);
-    const faceValue = toNumberLoose(a.faceValue, 0);
-    const couponRatePerPeriod = toFrac(a.couponRatePerPeriod);
-    const yieldRatePerPeriod = toFrac(a.yieldRatePerPeriod);
-    const periodCoupon = faceValue * couponRatePerPeriod;
-    const periodYieldInterest = carryingAmountStart * yieldRatePerPeriod;
-    const amortization = periodYieldInterest - periodCoupon; // 할인(+)/프리미엄(-)
-    const endingCarryingAmount = carryingAmountStart + amortization;
-    const out = {
-        periodCoupon,
-        periodYieldInterest,
-        amortization,
-        endingCarryingAmount,
-        isDiscountBond: carryingAmountStart < faceValue
+    const PV = Math.max(0, nz(input.issueAmount, 0)); // ✅ PV = 발행가액
+    const days = Math.max(1, Math.round(nz(input.scheduleDays, 0)));
+    const elapsed = Math.max(0, Math.min(days, Math.round(nz(input.elapsedDays, 0))));
+    const Vprev = Math.max(1e-9, nz(input.prevMeasuredValue, 0)); // 0 방어
+    const n = Math.max(1, Math.round(nz(input.years, 1)));
+    const step = input.options?.roundStep ?? 1e-6;
+    // 새로 추가된 필드들
+    const discountRate = nz(input.discountRate, 0); // 할인율 (선택사항)
+    const inputBeta = nz(input.beta, 0); // 베타 계수 (선택사항)
+    // Step1: 일일 사용량
+    const dailyUsage = PV / days;
+    // Step2: 경과일 반영 현재가치 Ps
+    let Ps = clamp(PV - dailyUsage * elapsed, 0, PV);
+    // 할인율이 제공된 경우 할인 적용
+    if (discountRate > 0) {
+        Ps = Ps * (1 - discountRate);
+    }
+    // Step3: 시장가치 계수 β
+    const betaRaw = (Ps - Vprev) / Vprev;
+    const beta = inputBeta > 0 ? inputBeta : (1 + betaRaw); // 입력된 베타가 있으면 사용, 없으면 계산
+    // Step4: 발행가액 기준 시장조정 장부가(1Y)
+    const marketAdjustedPV = PV * Math.pow(beta, n);
+    // Step5: 이자비용/발행유형 판정 (1Y)
+    let issueType = 'par';
+    let interestExpense = 0;
+    if (marketAdjustedPV < Ps) { // 기대장부가 < 현재가치 → 할인발행(수익 인식 ↑)
+        issueType = 'discount';
+        interestExpense = Ps - marketAdjustedPV;
+    }
+    else if (marketAdjustedPV > Ps) { // 기대장부가 > 현재가치 → 할증발행(수익 인식 ↓)
+        issueType = 'premium';
+        interestExpense = marketAdjustedPV - Ps;
+    }
+    return {
+        dailyUsage: roundTo(dailyUsage, step),
+        Ps: roundTo(Ps, step),
+        betaRaw: roundTo(betaRaw, step),
+        beta: roundTo(beta, step),
+        marketAdjustedPV: roundTo(marketAdjustedPV, step),
+        interestExpense: roundTo(interestExpense, step),
+        issueType,
     };
-    if (input?.options?.debug) {
-        out.debug = { carryingAmountStart, faceValue, couponRatePerPeriod, yieldRatePerPeriod };
-    }
-    const step = toNumberLoose(input?.options?.roundStep, 1e-6);
-    if (step > 0) {
-        const r = (x) => Math.round(x / step) * step;
-        out.periodCoupon = r(out.periodCoupon);
-        out.periodYieldInterest = r(out.periodYieldInterest);
-        out.amortization = r(out.amortization);
-        out.endingCarryingAmount = r(out.endingCarryingAmount);
-    }
-    return out;
 }

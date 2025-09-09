@@ -11,14 +11,14 @@ function section(title) {
 // 1) DDA — trigger & usagePct check
 section("DDA");
 console.log((0, models_1.runDDA)({
-    acquisitionCost: 100000,
-    bookValue: 80000,
-    residualValue: 5000,
+    acquisitionCost: 100_000,
+    bookValue: 80_000,
+    residualValue: 5_000,
     totalDays: 1200,
     unusedDays: 100,
     daysUsedThisPeriod: 90,
-    baselineUsageHours: 1000,
-    totalUsageHours: 1200,
+    baselineUsageHours: 1_000,
+    totalUsageHours: 1_200,
     usefulLifeYears: 5,
     marketChangeR: 0.03,
     beta: 1.2,
@@ -28,7 +28,7 @@ console.log((0, models_1.runDDA)({
 // 2) LAM — amortization + EIR interest
 section("LAM");
 console.log((0, models_1.runLAM)({
-    acquisitionCost: 50000,
+    acquisitionCost: 50_000,
     residualValue: 0,
     discountRate: 0.06,
     leaseTermYears: 5,
@@ -43,24 +43,23 @@ console.log((0, models_1.runLAM)({
 section("RVM");
 console.log((0, models_1.runRVM)({
     cumulativeMiningDays: 400,
-    cumulativeMinedValue: 120000,
+    cumulativeMinedValue: 120_000,
     currentPeriodMiningDays: 30,
-    currentPeriodMinedValue: 12000,
-    prevYearValuation: 100000,
+    currentPeriodMinedValue: 12_000,
+    prevYearValuation: 100_000,
     marketChangeR: 0.02,
     beta: 1.1,
-    usefulLifeYears: 6,
-    options: { mode: "raw" },
+    usefulLifeYears: 6
 }));
 // 4) CEEM — e^{(r*beta)*n(n+1)/2}
 section("CEEM");
 console.log((0, models_1.runCEEM)({
     cumulativeDays: 365,
-    cumulativeUsageQty: 36500, // 100/day avg
+    cumulativeUsageQty: 36_500, // 100/day avg
     currentDays: 30,
-    currentUsageQty: 3600, // 120/day
+    currentUsageQty: 3_600, // 120/day
     unitCost: 2.5,
-    prevYearExpense: 80000,
+    prevYearExpense: 80_000,
     marketChangeR: 0.015,
     beta: 0.9,
     usefulLifeYears: 2 // exponent sum = 3
@@ -68,25 +67,32 @@ console.log((0, models_1.runCEEM)({
 // 5) BDM — effective interest one period
 section("BDM");
 console.log((0, models_1.runBDM)({
-    faceValue: 1000,
-    issuePrice: 980,
-    couponRate: 0.05,
-    marketYield: 0.06,
-    yearsToMaturity: 5,
-    periodsPerYear: 2
+    issueAmount: 100000, // PV: 발행가액
+    scheduleDays: 365, // 약정일수
+    elapsedDays: 90, // 경과일수
+    prevMeasuredValue: 82000, // V_{t-1}
+    years: 1, // 1년 기준
+    options: { roundStep: 1e-6 }
 }));
 // 6) BELM — fraction rule (<1 add, >1 reduce)
 section("BELM");
 console.log((0, models_1.runBELM)({
-    dailyExpectedRepay: 1000,
-    elapsedDays: 30,
-    actualRepayToDate: 20000, // < expected(30k) => EL up
-    balanceByCounterparty: 200000,
-    totalARBalance: 1000000,
-    nominalInterestRate: 0.08,
-    baseELRate: 0.02,
-    priorPeriodRecoveryRatio: 0.3,
-    options: { clamp01: false },
+    // Step1~2: 상환 흐름
+    dailyExpectedSettlement: 1_000, // 일일 추정 상환액
+    usefulLifeYears: 1, // 내용연수(년)
+    elapsedDays: 30, // 경과일수
+    actualSettlementToDate: 20_000, // 실제 누적 상환액 (예상 30,000 대비 부족)
+    // Step4: 이자(연이율)
+    interestRate: 0.08, // 8%
+    // Step5: 포트폴리오 기여비중
+    clientExposure: 200_000, // 해당 거래처 잔액
+    totalExposure: 1_000_000, // 전체 거래처 잔액
+    // Step6: 전년도 가산 비중(선택)
+    prevYearClientSettlement: 50_000, // 전년도 해당 거래처 상환
+    prevYearTotalSettlement: 600_000, // 전년도 전체 상환
+    // 추가 가감(선택)
+    extraAdjPct: 0.01, // +1%p
+    clampELR01: true // 최종 대손율 0~1로 클램프 (기본 true)
 }));
 // 7) CPRM — conversion rate adj
 section("CPRM");
@@ -150,13 +156,20 @@ console.log('\n=== CPRM — Claude 스타일 페이로드(자동 매핑) ===');
     console.log(JSON.stringify(out, null, 2));
 }
 // 8) OCIM — n-1 dampening
-section("OCIM");
-console.log((0, models_1.runOCIM)({
-    ociShare: 0.25,
-    baseRate: 0.08,
-    years: 3,
-    prevQuarterEffectiveRate: undefined
-}));
+['ocim', () => (0, models_1.runOCIM)({
+        // 기존 ociShare를 그대로 쓰고 싶으면 1) 패치 적용 후 사용
+        ociShare: "25%",
+        openingOCIBalance: 80000,
+        currentPeriodOCI: 12000,
+        reclassificationAdjustments: 3000,
+        marketChangeR: "4%",
+        beta: "30%",
+        horizonYears: 1,
+        // (선택) 분기 중간 조정 슬롯
+        quarterAdjRate: "0.5%",
+        extraAdjPct: "-0.2%",
+        options: { debug: true }
+    })];
 // 9) FAREX — negative loop case
 section("FAREX");
 console.log((0, models_1.runFAREX)({
@@ -168,23 +181,23 @@ console.log((0, models_1.runFAREX)({
 // 10) TCT-BEAM — breakeven flag + optional sign flip
 section("TCT-BEAM");
 console.log((0, models_1.runTCTBEAM)({
-    fixedCostTotal5y: 5000000,
-    variableCostTotal5y: 6500000,
+    fixedCostTotal5y: 5_000_000,
+    variableCostTotal5y: 6_500_000,
     fixedRatioThisYear: 0.55,
     variableRatioThisYear: 0.45,
     prevAccumAngle: 170,
     deltaAngleThisYear: 15, // crosses 180°
-    options: { breakevenPostFlip: true },
 }));
 // 11) CPMRV — baseline/YTD average then monthly
 section("CPMRV");
 console.log((0, models_1.runCPMRV)({
-    lastYearAvgGrowth: 0.24, // ln 기반 평균치라고 가정
-    lastYearAvgDrawdown: 0.12,
-    ytdGrowth: 0.18,
-    ytdDrawdown: 0.10,
-    fairValueToday: 1000000,
-    options: { mode: "raw" },
+    previousYearGrowthRate: 0.24, // lastYearAvgGrowth
+    previousYearDeclineRate: 0.12, // lastYearAvgDrawdown
+    currentYearGrowthYTD: 0.18, // ytdGrowth
+    currentYearDeclineYTD: 0.10, // ytdDrawdown
+    currentCryptocurrencyValue: 1_000_000, // fairValueToday
+    horizonMonths: 12, // 선택, 기본 12
+    options: { debug: true } // 필요 시
 }));
 // 12) DCBPRA — RS fractional adjust; show allowInfinity toggle
 section("DCBPRA — allowInfinity:true");
@@ -217,9 +230,9 @@ console.log((0, models_1.runFAREX)({
 }));
 section("DDA — T1 clamp");
 console.log((0, models_1.runDDA)({
-    acquisitionCost: 50000,
-    bookValue: 200000,
-    residualValue: 1000,
+    acquisitionCost: 50_000,
+    bookValue: 200_000,
+    residualValue: 1_000,
     totalDays: 1825, // 5y
     unusedDays: 0,
     daysUsedThisPeriod: 1,
@@ -231,14 +244,3 @@ console.log((0, models_1.runDDA)({
     triggerUsagePct: 75,
     triggerRevalMultiple: 2,
 }));
-console.log('\n=== DCBPRA — allowInfinity:true (intentional Infinity) ===');
-{
-    const input = {
-        pctAdjust: "88%",
-        baseReturn: "6%",
-        beta: 2.2,
-        options: { allowInfinity: true, roundStep: 1e-6 },
-    };
-    const out = (0, models_1.runDCBPRA)(input);
-    console.log(JSON.stringify(out, null, 2));
-}

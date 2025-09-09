@@ -1,6 +1,6 @@
 {
-  "name": "sebit-mcp",
-  "version": "1.0.1",
+  "name": "@sebit/mcp",
+  "version": "1.0.2",
   "main": "dist/mcp-server.js",
   "type": "commonjs",
   "bin": {
@@ -22,12 +22,12 @@
     "prepublishOnly": "echo skip",
     "mcp:dist": "node dist/mcp-server.js"
   },
-  "keywords": [],
+  "keywords": ["accounting", "finance", "mcp", "sebit", "agi"],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.17.3",
+    "@modelcontextprotocol/sdk": "^1.17.4",
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "zod": "^3.25.76"

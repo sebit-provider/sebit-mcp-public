@@ -4,7 +4,8 @@
 // 공통 유틸 + 레거시 alias(_div/_nz/calcSensitivity)
 // =============================
 Object.defineProperty(exports, "__esModule", { value: true });
-exports._nz = exports._div = exports.nz = exports.roundTo = exports.clamp = exports.div = exports.toFrac = exports.toNumberLoose = void 0;
+exports._nz = exports._div = exports.nz = exports.roundTo = exports.clamp = exports.div = exports.toNumberLoose = void 0;
+exports.toFrac = toFrac;
 exports.calcSensitivity = calcSensitivity;
 const toNumberLoose = (x, d = 0) => {
     if (x == null)
@@ -19,20 +20,25 @@ const toNumberLoose = (x, d = 0) => {
 };
 exports.toNumberLoose = toNumberLoose;
 /** "34.5%", "34,500", " 0.345 " → 0~1 분수 */
-const toFrac = (x) => {
-    if (x == null)
-        return 0;
-    if (typeof x === 'string') {
-        const cleaned = x.trim().replace(/,/g, '').replace(/%/g, '');
-        const v = Number(cleaned);
-        if (!Number.isFinite(v))
-            return 0;
-        return v > 1 ? v / 100 : v;
+// shared.ts (or wherever toFrac lives)
+function toFrac(v, def = 0) {
+    if (v == null)
+        return def;
+    if (typeof v === "number")
+        return Number.isFinite(v) ? v : def;
+    if (typeof v === "string") {
+        const s = v.trim();
+        if (!s)
+            return def;
+        const hasPct = s.endsWith("%");
+        const num = parseFloat(hasPct ? s.slice(0, -1) : s);
+        if (!Number.isFinite(num))
+            return def;
+        return hasPct ? num / 100 : num; // ← 핵심: % 붙으면 100으로 나눠줌
     }
-    const v = Number(x);
-    return Number.isFinite(v) ? (v > 1 ? v / 100 : v) : 0;
-};
-exports.toFrac = toFrac;
+    const n = Number(v);
+    return Number.isFinite(n) ? n : def;
+}
 /** 안전 나눗셈 */
 const div = (a, b, d = 0) => {
     const x = Number(a), y = Number(b);

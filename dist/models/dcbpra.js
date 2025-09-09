@@ -1,69 +1,85 @@
 "use strict";
+// =============================
+// FILE: src/models/dcbpra.ts
+// SEBIT-DCBPRA: Dynamic CAPM (Percentage-Adjusted RS)
+// - RS는 CPMRV의 RS 그대로 사용 (별칭 허용: RS | rs | rsValue | rPrev)
+// - 성장률 보정 I: realGrowthPct(%) 또는 pctAdjust 직접 입력
+// - 옵션: allowInfinity / epsilonGuard / roundStep / debug
+// =============================
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.runDCBPRA = runDCBPRA;
-// ---- utils ----
-const toNumberLoose = (x, d = 0) => {
-    if (x == null)
-        return d;
-    if (typeof x === 'string') {
-        const cleaned = x.trim().replace(/[,_\s]/g, '');
-        const v = Number(cleaned);
-        return Number.isFinite(v) ? v : d;
+/** 유틸 */
+const nz = (x, d = 0) => (Number.isFinite(+x) ? +x : d);
+const roundTo = (v, step) => !Number.isFinite(v) ? v : Math.round(v / step) * step;
+const toRate = (x, d = 0) => {
+    if (Number.isFinite(+x))
+        return +x; // 0.06
+    if (typeof x === "string") {
+        const s = x.trim();
+        if (s.endsWith("%")) {
+            const n = Number(s.slice(0, -1));
+            if (Number.isFinite(n))
+                return n / 100; // "6%" -> 0.06
+        }
     }
-    const v = Number(x);
-    return Number.isFinite(v) ? v : d;
+    return d;
 };
-/** "88%", "0.88", 88 → 0.88 */
-const toFrac = (x) => {
-    if (x == null)
-        return 0;
-    if (typeof x === 'string') {
-        const cleaned = x.trim().replace(/,/g, '').replace(/%/g, '');
-        const v = Number(cleaned);
-        if (!Number.isFinite(v))
-            return 0;
-        return v > 1 ? v / 100 : v;
-    }
-    const v = Number(x);
-    return Number.isFinite(v) ? (v > 1 ? v / 100 : v) : 0;
-};
-const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
-// ---- core ----
 function runDCBPRA(input) {
-    // 1) 별칭 흡수 + 파싱
-    const pctIn = input.pctAdjust ?? input.adjustPercent ?? input.pct ?? 1;
-    const baseIn = input.baseReturn ?? input.return ?? 0;
-    const betaIn = input.beta ?? 1;
-    let pct = clamp(toFrac(pctIn), 0, 1); // 0~1로 클램프
-    const baseRet = toFrac(baseIn); // 6% → 0.06
-    const beta = toNumberLoose(betaIn, 1);
-    const opts = input.options ?? {};
-    const eps = toNumberLoose(opts.epsilonGuard, 1e-8);
-    const allowInf = !!opts.allowInfinity;
-    // 2) 분모 설계: (1 - beta * pct)가 0에 가까우면 폭주 → 가드
-    const rawDen = 1 - (beta * pct);
-    const denom = Math.abs(rawDen);
-    let betaAdjusted;
-    if (denom <= eps) {
-        betaAdjusted = allowInf ? Infinity : 1 / eps;
+    const opt = input.options ?? {};
+    const allowInfinity = !!opt.allowInfinity;
+    const eps = nz(opt.epsilonGuard, 1e-9);
+    const step = nz(opt.roundStep, 1e-6);
+    const dbg = !!opt.debug;
+    // --- 1) 파라미터 정규화 ---
+    const rf = toRate(input.riskFreeRate ?? input.riskFree, 0);
+    const rm = toRate(input.marketReturn ?? input.baseReturn, 0);
+    const beta = nz(input.beta, 1);
+    const RS = nz(input.RS ?? input.rs ?? input.rsValue ?? input.rPrev, 0);
+    // --- 2) 성장 보정 I ---
+    let I = input.pctAdjust;
+    if (!Number.isFinite(I)) {
+        const gPct = nz(input.realGrowthPct ?? input.actualGrowthRate, 0);
+        const g = gPct / 100; // 퍼센트 → 비율
+        I = g >= 0 ? 1 + g : 1 - Math.abs(g);
+    }
+    I = nz(I, 1);
+    // --- 3) β 보정: β_i = β × (1 + 1/(1 + RS)) ---
+    let denom = 1 + RS;
+    let frac;
+    if (denom === 0) {
+        if (allowInfinity) {
+            frac = Infinity; // ∞ 허용
+        }
+        else {
+            denom = RS >= 0 ? eps : -eps; // 분모 가드
+            frac = 1 + 1 / denom;
+        }
     }
     else {
-        betaAdjusted = 1 / denom;
+        frac = 1 + 1 / denom;
     }
-    // 3) 최종 수익률
-    let adjustedReturn = baseRet * pct * betaAdjusted;
-    // 4) 라운딩
-    const step = toNumberLoose(opts.roundStep, 1e-6);
-    const R = (x) => (step > 0 ? Math.round(x / step) * step : x);
-    pct = R(pct);
-    betaAdjusted = R(betaAdjusted);
-    adjustedReturn = R(adjustedReturn);
+    const betaAdjusted = beta * frac;
+    // --- 4) 기대수익/최종수익 ---
+    const spread = rm - rf;
+    const expectedReturn = !Number.isFinite(betaAdjusted) ? (betaAdjusted > 0 ? Infinity : -Infinity)
+        : rf + betaAdjusted * spread;
+    const finalReturn = !Number.isFinite(expectedReturn) ? expectedReturn : expectedReturn * I;
     const out = {
-        pctAdjust: pct,
-        betaAdjusted,
-        adjustedReturn
+        I: roundTo(I, step),
+        betaAdjusted: Number.isFinite(betaAdjusted) ? roundTo(betaAdjusted, step) : betaAdjusted,
+        expectedReturn: Number.isFinite(expectedReturn) ? roundTo(expectedReturn, step) : expectedReturn,
+        finalReturn: Number.isFinite(finalReturn) ? roundTo(finalReturn, step) : finalReturn,
+        note: "β_i = β × (1 + 1/(1+RS));  I = (1±g%), g<0이면 1-|g|"
     };
-    if (opts.debug)
-        out.debug = { baseReturn: baseRet, beta, denom, usedEps: eps };
+    if (dbg) {
+        out.debug = {
+            inputs: {
+                rf, rm, beta, RS,
+                realGrowthPct: input.realGrowthPct ?? input.actualGrowthRate,
+                pctAdjust: input.pctAdjust
+            },
+            options: { allowInfinity, eps, step }
+        };
+    }
     return out;
 }

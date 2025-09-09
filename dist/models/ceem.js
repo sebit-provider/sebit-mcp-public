@@ -1,58 +1,89 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.runCEEM = runCEEM;
-// ---- utils ----
-const n = (v, d = 0) => (Number.isFinite(+v) ? +v : d);
-/** "34.5%", "34,500", " 0.345 " 모두 허용 → 0~1 분수 */
-const toFrac = (x) => {
-    if (x == null)
-        return 0;
-    if (typeof x === 'string') {
-        const cleaned = x.trim().replace(/,/g, '').replace(/%/g, '');
-        const v = Number(cleaned);
-        if (!Number.isFinite(v))
-            return 0;
-        return v > 1 ? v / 100 : v;
-    }
-    const v = Number(x);
-    return Number.isFinite(v) ? (v > 1 ? v / 100 : v) : 0;
-};
-/** 안전 나눗셈 */
-const div = (a, b, d = 0) => {
-    const x = Number(a), y = Number(b);
-    return Number.isFinite(x) && Number.isFinite(y) && Math.abs(y) > 1e-12 ? x / y : d;
-};
-// ---- core ----
+// =============================
+// FILE: src/models/ceem.ts
+// SEBIT-CEEM: Consumable Expense Evaluation Model (aliases-friendly)
+// =============================
+const shared_1 = require("./shared");
+const roundTo = (v, step = 1e-6) => Math.round((v ?? 0) / step) * step;
 function runCEEM(input) {
-    const baseline = n(input?.baselineDailyUsage, NaN);
-    const actual = n(input?.actualDailyUsage, NaN);
-    const expense = n(input?.expenseThisPeriod, 0);
-    // 사용량 파트: 값이 비어도 항상 숫자 보장
-    const dailyAvgUsage = Number.isFinite(baseline)
-        ? baseline
-        : (Number.isFinite(actual) ? actual : 0);
-    const baselineVsActualUsage = (Number.isFinite(baseline) && baseline > 0 && Number.isFinite(actual))
-        ? div(actual, baseline, 1)
-        : 1;
-    // 민감도 파트
-    const yrs = n(input?.usefulLifeYears, 1);
-    const beta = n(toFrac(input?.beta), 0); // 문자열/퍼센트 허용
-    const r = n(toFrac(input?.marketChangeR), 0); // 문자열/퍼센트 허용
-    // 완만한 민감도: 작은 r/beta에서도 소폭 조정되게끔 설계
-    // (기존 수치 근사 유지: exp(beta * r * (1 + (yrs-1)/yrs)))
-    const sensitivityFactor = Math.exp(beta * r * (1 + (yrs - 1) / Math.max(1, yrs)));
-    // 재평가 금액: 당기비용 × 민감도 (사용량 비율은 보고지표로 유지)
-    const revaluedExpense = expense * sensitivityFactor;
-    const dbg = input?.options?.debug
-        ? { baseline: dailyAvgUsage, actual: Number.isFinite(actual) ? actual : 0, yrs, beta }
-        : undefined;
-    return {
-        dailyAvgUsage,
-        baselineVsActualUsage,
-        expenseThisPeriod: expense,
-        r,
-        sensitivityFactor,
-        revaluedExpense,
-        ...(dbg ? { debug: dbg } : {}),
+    const opt = input.options ?? {};
+    const step = (0, shared_1._nz)(opt.roundStep, 1e-6);
+    // ---------- 1) 일일 평균사용량 ----------
+    const cumUseRaw = input.cumulativeUsage ??
+        input.cumulativeUsageQty ??
+        0;
+    const cumDaysRaw = input.cumulativeUsageDays ??
+        input.cumulativeDays ??
+        0;
+    const cumUse = (0, shared_1._nz)(+cumUseRaw, 0);
+    const cumDays = Math.max(1, (0, shared_1._nz)(+cumDaysRaw, 1));
+    const dailyAvgUsage = (0, shared_1._div)(cumUse, cumDays, 0);
+    // 단가
+    const unitCost = (0, shared_1._nz)(+input.unitCost, 0);
+    // ---------- 2) 기준/총 사용가치 ----------
+    // 기준 연사용량: 명시값 > baselineDailyUsage*365 > 일평균*365
+    const baselineAnnualUsage = (input.baselineAnnualUsage != null)
+        ? (0, shared_1._nz)(+input.baselineAnnualUsage, 0)
+        : (input.baselineDailyUsage != null)
+            ? (0, shared_1._nz)(+input.baselineDailyUsage, 0) * 365
+            : dailyAvgUsage * 365;
+    // 기간 일수(이번 기간)
+    const periodDays = Math.max(1, (0, shared_1._nz)(+(input.periodDays ?? input.currentDays ?? 365), 365));
+    // 이번 기간 총 사용량: 명시값 > currentUsageQty > actualDailyUsage*periodDays > expenseThisPeriod/unitCost > 일평균*periodDays
+    const totalUsage = (input.totalUsage != null)
+        ? (0, shared_1._nz)(+input.totalUsage, 0)
+        : (input.currentUsageQty != null)
+            ? (0, shared_1._nz)(+input.currentUsageQty, 0)
+            : (input.actualDailyUsage != null)
+                ? (0, shared_1._nz)(+input.actualDailyUsage, 0) * periodDays
+                : (input.expenseThisPeriod != null && unitCost > 0)
+                    ? (0, shared_1._nz)(+input.expenseThisPeriod, 0) / unitCost
+                    : dailyAvgUsage * periodDays;
+    const baselineValue = baselineAnnualUsage * unitCost;
+    const totalValue = totalUsage * unitCost;
+    // ---------- 3) 사용변화율 ----------
+    const usageChangePct = (0, shared_1._div)(totalValue - baselineValue, baselineValue, 0);
+    // ---------- 4) 시장변화율 r ----------
+    // 문서: r = ln( Pβ / (1+prevYearR)^(1/12) )
+    // prevYearR 별칭: marketChangeR
+    const Pbeta = Math.max(1e-12, 1 + usageChangePct);
+    const prevR = (0, shared_1.toFrac)(input.prevYearR ?? input.marketChangeR ?? 0);
+    const monthlyFactor = Math.pow(1 + prevR, 1 / 12);
+    const r = Math.log(Pbeta / Math.max(1e-12, monthlyFactor));
+    // ---------- 5) 시장계수 ----------
+    const n = Math.max(1, (0, shared_1._nz)(+(input.years ?? input.usefulLifeYears ?? 1), 1));
+    const beta = Math.max(1e-12, (0, shared_1._nz)(+input.beta, 1)); // 최소 보호
+    const marketIndex = Math.exp(r * n) * beta;
+    // ---------- 6) 재평가 비용 ----------
+    const reappraisedConsumableCost = totalValue * marketIndex;
+    const out = {
+        dailyAvgUsage: roundTo(dailyAvgUsage, step),
+        baselineValue: roundTo(baselineValue, step),
+        totalValue: roundTo(totalValue, step),
+        usageChangePct: roundTo(usageChangePct, step),
+        r: roundTo(r, step),
+        marketIndex: roundTo(marketIndex, step),
+        reappraisedConsumableCost: roundTo(reappraisedConsumableCost, step),
     };
+    if (opt.debug) {
+        out.debug = {
+            inputs: {
+                cumUse, cumDays, unitCost,
+                baselineAnnualUsage, totalUsage, periodDays,
+                prevR, beta, n,
+                usedAliases: {
+                    cumulativeUsage: input.cumulativeUsage ?? input.cumulativeUsageQty,
+                    cumulativeDays: input.cumulativeUsageDays ?? input.cumulativeDays,
+                    totalUsage: input.totalUsage ?? input.currentUsageQty ?? input.actualDailyUsage ?? input.expenseThisPeriod,
+                    periodDays: input.periodDays ?? input.currentDays,
+                    prevYearR: input.prevYearR ?? input.marketChangeR,
+                    years: input.years ?? input.usefulLifeYears,
+                },
+            },
+            Pbeta, monthlyFactor,
+        };
+    }
+    return out;
 }

@@ -10,6 +10,20 @@ const mcp_js_1 = require("@modelcontextprotocol/sdk/server/mcp.js");
 const stdio_js_1 = require("@modelcontextprotocol/sdk/server/stdio.js");
 const zod_1 = require("zod");
 const models_1 = require("./models");
+const labels = {
+    dda: 'Dynamic Depreciation',
+    lam: 'Lease Asset Model',
+    rvm: 'Resource Valuation',
+    ceem: 'Consumable Expense Model',
+    bdm: 'Bond Effective Interest',
+    belm: 'Expected Loss',
+    cprm: 'Convertible Bond Risk',
+    ocim: 'OCI Compounded Increase',
+    farex: 'FX Adjustment',
+    tctbeam: 'Trigonometric Breakeven',
+    cpmrv: 'Crypto Real Value',
+    dcbpra: 'Beta-Adjusted Return',
+};
 // 모델 이름 튜플(정적) — z.enum에 그대로 사용
 exports.modelNames = [
     'dda', 'lam', 'rvm', 'ceem', 'bdm', 'belm', 'cprm', 'ocim', 'farex', 'tctbeam', 'cpmrv', 'dcbpra'
