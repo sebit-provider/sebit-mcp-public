@@ -45,6 +45,22 @@ This framework is MCP-based. To integrate with Claude Desktop (or other MCP clie
 ## 1. DDA (Dynamic Depreciation Algorithm)
 **Description:** Calculates depreciation dynamically, factoring in time, usage, and market sensitivity.
 
+### 🔹 Input example
+```json
+{
+  "acquisitionCost": 100000,
+  "residualValue": 10000,
+  "usefulLifeYears": 5,
+  "elapsedUseDays": 30,
+  "periodUseDays": 60,
+  "baselineUseHours": 100,
+  "totalUseHours": 105,
+  "beta": 0.3,
+  "psPrev": 120,
+  "psCurr": 108
+}
+```
+
 - Daily depreciation based on elapsed days  
 - Adjustments for over/under usage  
 - Market rate (r) and β sensitivity applied  
@@ -57,6 +73,18 @@ This framework is MCP-based. To integrate with Claude Desktop (or other MCP clie
 ## 2. LAM (Lease Asset Model)
 **Description:** Evaluates lease liabilities and right-of-use (ROU) assets considering cost, rate, and usage.
 
+### 🔹 Input example
+```json
+{
+  "acquisitionCost": 5000000,
+  "residualValue": 200000,
+  "leaseTermYears": 3,
+  "daysUsedThisPeriod": 180,
+  "totalDays": 365,
+  "discountRate": 0.06
+}
+```
+
 - PV-based lease liability valuation  
 - Depreciation based on usage days  
 - Adjustment for residual value & unused term  
@@ -67,6 +95,19 @@ This framework is MCP-based. To integrate with Claude Desktop (or other MCP clie
 
 ## 3. RVM (Resource Valuation Model)
 **Description:** Values resources using cumulative and current mining data with market adjustments.
+
+### 🔹 Input example
+```json
+{
+  "cumulativeMiningDays": 300,
+  "cumulativeMinedValue": 1500,
+  "currentPeriodMiningDays": 30,
+  "currentPeriodMinedValue": 100,
+  "currentResourcePrice": 50,
+  "prevYearValuation": 1200,
+  "currentValuation": 1350
+}
+```
 
 - Cumulative & period-based resource valuation  
 - Market price variation (r) and β sensitivity applied  
@@ -79,6 +120,19 @@ This framework is MCP-based. To integrate with Claude Desktop (or other MCP clie
 ## 4. CEEM (Consumable Expense Estimation Model)
 **Description:** Estimates consumable expenses based on cumulative usage and unit costs.
 
+### 🔹 Input example
+```json
+{
+  "cumulativeUsage": 1200,
+  "unitCost": 15,
+  "periodDays": 30,
+  "totalUsage": 300,
+  "prevYearR": 0.08,
+  "beta": 0.9,
+  "years": 3
+}
+```
+
 - Expense = Unit cost × Usage  
 - Growth rate (r) and β sensitivity applied  
 - Aggregated per-period cost analysis  
@@ -89,6 +143,17 @@ This framework is MCP-based. To integrate with Claude Desktop (or other MCP clie
 
 ## 5. BDM (Bond Discounting Model)
 **Description:** Discounts bonds to present value considering issue amount, elapsed days, and discount rate.
+
+### 🔹 Input example
+```json
+{
+  "issueAmount": 1000000,
+  "scheduleDays": 365,
+  "elapsedDays": 90,
+  "prevMeasuredValue": 980000,
+  "discountRate": 0.05
+}
+```
 
 - Present Value (PV) based on elapsed days  
 - Adjustments with discount rate & β  
@@ -101,6 +166,19 @@ This framework is MCP-based. To integrate with Claude Desktop (or other MCP clie
 ## 6. BELM (Bad Debt Expected Loss Model)
 **Description:** Estimates Expected Loss Rate (ELR) using settlements, exposures, and interest rates.
 
+### 🔹 Input example
+```json
+{
+  "dailyExpectedSettlement": 2000,
+  "usefulLifeYears": 5,
+  "elapsedDays": 400,
+  "actualSettlementToDate": 700000,
+  "interestRate": 0.06,
+  "clientExposure": 100000,
+  "totalExposure": 1000000
+}
+```
+
 - Expected vs actual settlements  
 - Portfolio weighting and historical performance  
 - Final ELR (0–1 range)  
@@ -111,6 +189,22 @@ This framework is MCP-based. To integrate with Claude Desktop (or other MCP clie
 
 ## 7. CPRM (Convertible Bond Risk Model)
 **Description:** Calculates convertible bond risk based on base rate, bad debts, PD, volumes, and recoveries.
+
+### 🔹 Input example
+```json
+{
+  "baseRate": 0.02,
+  "badDebtIncidence": 0.01,
+  "assumedDefaultRate": 0.03,
+  "bondUnitPrice": 1000,
+  "bondVolume": 500,
+  "pastDebtorRecovery": 200,
+  "bondTurnoverPct": 0.5,
+  "stockTurnoverPct": 0.8,
+  "extraAdj": -0.005,
+  "maxValue": 0.35
+}
+```
 
 - Base rate + PD + Bad debt incidence  
 - Adjustments with trading volumes & recoveries  
@@ -123,6 +217,19 @@ This framework is MCP-based. To integrate with Claude Desktop (or other MCP clie
 ## 8. OCIM (Other Comprehensive Income Model)
 **Description:** Compounds OCI considering account shares, flows, sensitivity, and adjustments.
 
+### 🔹 Input example
+```json
+{
+  "accountOCIAmount": 20000,
+  "totalOCIAllItems": 100000,
+  "openingOCIBalance": 50000,
+  "currentPeriodOCI": 7000,
+  "marketChangeR": 0.05,
+  "beta": 1.2,
+  "horizonYears": 3
+}
+```
+
 - OCI account share calculation  
 - Compound evaluation of opening & current OCI  
 - Sensitivity and adjustment applied  
@@ -133,6 +240,17 @@ This framework is MCP-based. To integrate with Claude Desktop (or other MCP clie
 
 ## 9. FAREX (Foreign Exchange Adjustment Model)
 **Description:** Adjusts FX based on export/import data and computes effective exchange rate.
+
+### 🔹 Input example
+```json
+{
+  "prevYear_export_curr": 1000,
+  "prevYear_import_curr": 800,
+  "currYear_export_curr": 1200,
+  "currYear_import_curr": 900,
+  "currentExchangeRate": 1320
+}
+```
 
 - Trade balance analysis (YoY comparison)  
 - FX sensitivity (β, weights) applied  
@@ -145,6 +263,15 @@ This framework is MCP-based. To integrate with Claude Desktop (or other MCP clie
 ## 10. TCT-BEAM (Trigonometric Cost Tracking & BE Analysis Model)
 **Description:** Uses trigonometric angles of fixed/variable costs to analyze revenue sensitivity and break-even.
 
+### 🔹 Input example
+```json
+{
+  "fixedCosts": [100, 120, 130],
+  "variableCosts": [200, 220, 250],
+  "currentRevenue": 500
+}
+```
+
 - Conversion of costs into angular representation  
 - Break-even point (BEP) estimation  
 - Sensitivity analysis  
@@ -156,6 +283,16 @@ This framework is MCP-based. To integrate with Claude Desktop (or other MCP clie
 ## 11. CPMRV (Crypto Market Real Value)
 **Description:** Evaluates cryptocurrency fair value using past growth/decline rates and current market value.
 
+### 🔹 Input example
+```json
+{
+  "previousYearGrowthRate": 0.24,
+  "previousYearDeclineRate": 0.12,
+  "currentYearGrowthYTD": 0.08,
+  "currentCryptocurrencyValue": 35000
+}
+```
+
 - Historical growth/decline rates applied  
 - YTD adjustments  
 - Real (fair) value computed  
@@ -166,6 +303,17 @@ This framework is MCP-based. To integrate with Claude Desktop (or other MCP clie
 
 ## 12. DCBPRA (Dynamic CAPM-Based Pricing Risk Adjustment)
 **Description:** Adjusts CAPM pricing with real growth rates to dynamically evaluate risk premium.
+
+### 🔹 Input example
+```json
+{
+  "riskFreeRate": 0.02,
+  "marketReturn": 0.08,
+  "beta": 1.1,
+  "RS": 0.9,
+  "realGrowthPct": 0.045
+}
+```
 
 - CAPM-based expected return  
 - RS & real growth adjustment  
@@ -180,7 +328,8 @@ This framework is MCP-based. To integrate with Claude Desktop (or other MCP clie
 - Numeric fields allow string input (`"8%"`, `"0.08"`)  
 - Optional fields (`options`) may be added.  
 - See `SEBIT_FRAMEWORK_INPUT_VALUABLES.docx` for detailed input docs.  
-- All models comply with IFRS standards.  
+- All models comply with IFRS standards.
+- unauthorized commercial use of this architecture and MCP is prohibited. If you wish to use it for commercial purposes, please contact us via email (sebit.2508@gmail.com).
 
 ---
 
