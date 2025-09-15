@@ -1,6 +1,6 @@
 {
   "name": "sebit-mcp-public",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "main": "dist/mcp-server.js",
   "type": "commonjs",
   "license": "SPL v1.0",
