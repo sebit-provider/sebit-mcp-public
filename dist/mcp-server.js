@@ -23,10 +23,11 @@ const labels = {
     tctbeam: 'Trigonometric Breakeven',
     cpmrv: 'Crypto Real Value',
     dcbpra: 'Beta-Adjusted Return',
+    journal: 'journalizing',
 };
 // 모델 이름 튜플(정적) — z.enum에 그대로 사용
 exports.modelNames = [
-    'dda', 'lam', 'rvm', 'ceem', 'bdm', 'belm', 'cprm', 'ocim', 'farex', 'tctbeam', 'cpmrv', 'dcbpra'
+    'dda', 'lam', 'rvm', 'ceem', 'bdm', 'belm', 'cprm', 'ocim', 'farex', 'tctbeam', 'cpmrv', 'dcbpra', 'journal'
 ];
 // 레지스트리
 const registry = {
@@ -42,6 +43,7 @@ const registry = {
     tctbeam: models_1.runTCTBEAM,
     cpmrv: models_1.runCPMRV,
     dcbpra: models_1.runDCBPRA,
+    journal: models_1.runJournal,
 };
 const server = new mcp_js_1.McpServer({ name: 'sebit-mcp', version: '0.1.0' });
 function sanitize(v, mode = 'omitNullish', seen = new WeakSet()) {

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.runDCBPRA = exports.runCPMRV = exports.runTCTBEAM = exports.runFAREX = exports.runOCIM = exports.runCPRM = exports.runBELM = exports.runBDM = exports.runCEEM = exports.runRVM = exports.runLAM = exports.runDDA = void 0;
+exports.runJournal = exports.runDCBPRA = exports.runCPMRV = exports.runTCTBEAM = exports.runFAREX = exports.runOCIM = exports.runCPRM = exports.runBELM = exports.runBDM = exports.runCEEM = exports.runRVM = exports.runLAM = exports.runDDA = void 0;
 // src/models/index.ts (딱 이 내용만)
 var dda_1 = require("./dda");
 Object.defineProperty(exports, "runDDA", { enumerable: true, get: function () { return dda_1.runDDA; } });
@@ -26,3 +26,5 @@ var cpmrv_1 = require("./cpmrv");
 Object.defineProperty(exports, "runCPMRV", { enumerable: true, get: function () { return cpmrv_1.runCPMRV; } });
 var dcbpra_1 = require("./dcbpra");
 Object.defineProperty(exports, "runDCBPRA", { enumerable: true, get: function () { return dcbpra_1.runDCBPRA; } });
+var journal_1 = require("./journal");
+Object.defineProperty(exports, "runJournal", { enumerable: true, get: function () { return journal_1.runJournal; } });

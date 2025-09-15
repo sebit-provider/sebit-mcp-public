@@ -3,7 +3,7 @@
 > 한국어 설명은 아래 링크에서 확인할 수 있습니다.  
 > 👉 [README.ko.md](./README.ko.md)
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)  
+[![License: SPL-1.0](https://img.shields.io/badge/License-SPL--1.0-blue.svg)](./LICENSE)
 [![npm version](https://img.shields.io/npm/v/sebit-mcp-public)](https://www.npmjs.com/package/sebit-mcp-public)  
 [![npm downloads](https://img.shields.io/npm/dt/sebit-mcp-public)](https://www.npmjs.com/package/sebit-mcp-public)  
 [![GitHub stars](https://img.shields.io/github/stars/sebit-provider/sebit-mcp-public?style=social)](https://github.com/sebit-provider/sebit-mcp-public/stargazers)  
@@ -329,10 +329,22 @@ This framework is MCP-based. To integrate with Claude Desktop (or other MCP clie
 - Optional fields (`options`) may be added.  
 - See `SEBIT_FRAMEWORK_INPUT_VALUABLES.docx` for detailed input docs.  
 - All models comply with IFRS standards.
-- unauthorized commercial use of this architecture and MCP is prohibited. If you wish to use it for commercial purposes, please contact us via email (sebit.2508@gmail.com).
+
+> **License Notice**  
+> This project is licensed under the **Sebit Public License v1.0 (SPL-1.0)**.  
+> 
+> - ✅ Free for personal, educational, and research purposes  
+> - 💼 Commercial use requires a separate license from the Author  
+> - ✍️ Attribution ("SEBIT") is required in any use or derivative work  
+> 
+> For details, see the [LICENSE](./LICENSE) and [NOTICE](./NOTICE) files.  
 
 ---
 
 # 🧾 License & Author
-- License: MIT  
+- License: **Sebit Public License v1.0(SPL-1.0)**  
 - Author: **Seounghyup Park (박승협)**  
+
+# 📬 문의 (Contact)
+- Email: **sebit.2508@gmail.com**
+- GitHub Issues: [sebit-mcp-public Issues](https://github.com/sebit-provider/sebit-mcp-public/issues)

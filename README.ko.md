@@ -1,6 +1,9 @@
 # SEBIT-MCP Models (Korean) 🇰🇷
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)  
+> if you want to read in English, click the link below.  
+> 👉 [README.md](./README.md)
+
+[![License: SPL-1.0](https://img.shields.io/badge/License-SPL--1.0-blue.svg)](./LICENSE)
 [![npm version](https://img.shields.io/npm/v/sebit-mcp-public)](https://www.npmjs.com/package/sebit-mcp-public)  
 [![npm downloads](https://img.shields.io/npm/dt/sebit-mcp-public)](https://www.npmjs.com/package/sebit-mcp-public)  
 [![GitHub stars](https://img.shields.io/github/stars/sebit-provider/sebit-mcp-public?style=social)](https://github.com/sebit-provider/sebit-mcp-public/stargazers)  
@@ -373,10 +376,21 @@ node dist/mcp-server.js
 - 옵션 필드(`options`)는 선택적으로 사용 가능합니다.  
 - 자세한 인풋 json에 대해서는 해당 프로젝트 루트안에 있는 SEBIT_FRAMEWORK_INPUT_VALUABLES.docx를 참고하세요.
 - 해당 MCP는 국제회계기준인 IFRS를 따르며, 관련조문을 준수합니다.
-- 해당 아키텍처 및 mcp의 제 3자의 무단  상업적 사용을 금하며, 만약 상업적인 사유로 사용하길 희망한다면 이메일(sebit.2508@gmail.com)으로 연락주시길 바랍니다.
 ---
 
+> **라이선스 안내**  
+> 이 프로젝트는 **Sebit Public License v1.0 (SPL-1.0)** 하에 배포됩니다.  
+> 
+> - ✅ 개인, 교육, 연구 목적 사용은 자유롭게 가능  
+> - 💼 상업적 사용은 저작자로부터 별도 라이선스 필요  
+> - ✍️ 출처 표기("SEBIT")는 모든 사용 및 파생 저작물에 필수  
+> 
+> 자세한 내용은 [LICENSE](./LICENSE) 및 [NOTICE](./NOTICE) 파일을 참고하세요.  
+
 # 🧾 라이선스 & 기안자
-- License: MIT  
+- License: **Sebit Public License v1.0 (SPL-1.0)**
 - 기안자: 박승협 (Seounghyup Park)  
 
+# 📬 문의 (Contact)
+- Email: **sebit.2508@gmail.com**
+- GitHub Issues: [sebit-mcp-public Issues](https://github.com/sebit-provider/sebit-mcp-public/issues)

@@ -1,23 +1,100 @@
-﻿MIT License
+﻿Sebit Public License v1.0 (SPL-1.0)
 
-Copyright (c) 2025 Seounghyup Park
+Copyright (c) 2025 SEBIT (sebit.2508@gmail.com)
+All rights reserved.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+====================================================================
+1. Grant of Rights
+====================================================================
+Subject to the terms of this License, you are granted a non-exclusive,
+worldwide, royalty-free, irrevocable right to use, copy, modify, and
+distribute the Licensed Software for NON-COMMERCIAL purposes only
+(including personal, academic, or research use).
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+====================================================================
+2. Commercial Use Restriction
+====================================================================
+Any use of the Licensed Software for COMMERCIAL PURPOSES (including
+but not limited to SaaS offerings, resale, integration into paid
+products, or internal business use that generates direct or indirect
+revenue) requires a SEPARATE COMMERCIAL LICENSE obtained from the
+Author.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+Unauthorized commercial use constitutes infringement and will result
+in immediate termination of this License.
 
-unauthorized commercial use of this architecture and MCP is prohibited. If you wish to use it for commercial purposes, please contact us via email (sebit.2508@gmail.com).
+====================================================================
+3. Attribution and Notice
+====================================================================
+All copies and modifications of the Licensed Software must include:
+
+- This License in its entirety.
+- Clear attribution to the original Author (“SEBIT”).
+- A description of any modifications made (if applicable).
+
+====================================================================
+4. Compliance and Enforcement
+====================================================================
+Violation of the terms of this License will automatically terminate
+your rights under it.
+
+The Author reserves the right to seek injunctive relief and damages
+for unauthorized use, including commercial exploitation without a
+proper license.
+
+====================================================================
+5. SaaS and Resale Restriction
+====================================================================
+You may NOT:
+
+- Provide the Licensed Software as a hosted service (SaaS) that
+  circumvents the commercial license requirement.
+- Resell or sublicense the Licensed Software in any form without
+  prior written permission from the Author.
+
+====================================================================
+6. Patent Clause
+====================================================================
+No patent rights are granted under this License. Any attempt to use
+the Licensed Software to assert or enforce patent claims against the
+Author or other licensees will result in immediate termination of
+this License.
+
+====================================================================
+7. Warranty Disclaimer
+====================================================================
+THE LICENSED SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY
+KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND
+NONINFRINGEMENT.
+
+IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY CLAIM, DAMAGES, OR
+OTHER LIABILITY ARISING OUT OF OR IN CONNECTION WITH THE SOFTWARE.
+
+====================================================================
+8. Governing Law
+====================================================================
+This License shall be governed and interpreted under the laws of the
+Republic of Korea, without regard to its conflict of law principles.
+
+====================================================================
+9. Contact
+====================================================================
+For commercial licensing, inquiries, or permissions:
+
+Email: sebit.2508@gmail.com
+
+====================================================================
+TL;DR (Non-binding Summary)
+====================================================================
+- Free for personal, academic, or research use.
+- Commercial use requires a separate license from the Author.
+- Must credit the Author and include this License.
+- SaaS/resale without permission is prohibited.
+- Patent aggression terminates your rights.
+- Violation = license terminated + legal enforcement possible.
+
+====================================================================
+SPDX Identifier
+====================================================================
+License-Identifier: SPL-1.0

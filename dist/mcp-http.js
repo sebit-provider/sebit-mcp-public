@@ -39,12 +39,12 @@ function sanitize(v, mode = "omitNullish") {
 }
 // ---------- 모델 레지스트리 ----------
 exports.modelNames = [
-    "dda", "lam", "rvm", "ceem", "bdm", "belm", "cprm", "ocim", "farex", "tctbeam", "cpmrv", "dcbpra"
+    "dda", "lam", "rvm", "ceem", "bdm", "belm", "cprm", "ocim", "farex", "tctbeam", "cpmrv", "dcbpra", "journal"
 ];
 const registry = {
     dda: models_1.runDDA, lam: models_1.runLAM, rvm: models_1.runRVM, ceem: models_1.runCEEM, bdm: models_1.runBDM,
     belm: models_1.runBELM, cprm: models_1.runCPRM, ocim: models_1.runOCIM, farex: models_1.runFAREX,
-    tctbeam: models_1.runTCTBEAM, cpmrv: models_1.runCPMRV, dcbpra: models_1.runDCBPRA,
+    tctbeam: models_1.runTCTBEAM, cpmrv: models_1.runCPMRV, dcbpra: models_1.runDCBPRA, journal: models_1.runJournal,
 };
 // ---------- 안전 유틸 (헤더/Origin/프로토콜/호스트 문자열화) ----------
 const safeStr = (v, fallback = "") => String(Array.isArray(v) ? v[0] : (v ?? fallback))

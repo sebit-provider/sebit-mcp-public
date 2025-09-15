@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "outDir": "dist",
+    "checkJs": false,
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  },
+  "include": ["**/*.js"],
+  "exclude": ["node_modules"]
+}
