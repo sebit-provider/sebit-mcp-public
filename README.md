@@ -322,7 +322,40 @@ This framework is MCP-based. To integrate with Claude Desktop (or other MCP clie
 **Relevant IFRS:** IFRS 13, IAS 36, IAS 19  
 
 ---
+# Additional Features(Since 1.0.6)
+## JOURNAL (Dual-language Journal Builder)
 
+Description: Generates and maintains accounting journals in Excel format with Korean (분개장) and English (journal) ledgers.
+
+🔹 Input example
+
+{
+  "company": "SEBIT Corp",
+  "text": "2025-01-05 Samsung Electronics office supplies 50000 KRW paid by card",
+  "options": {
+    "baseDir": "Desktop/journal_book",
+    "oneWorkbookPerYear": true
+  }
+}
+
+🔹 Output example
+
+output filename: 2025_journal.xlsx
+Monthly sheets: 01 … 12
+Audit log: audit.log
+
+
+Features:
+✅ Natural language → Journal entry (ko/en)
+✅ Automatic account classification (API + heuristics)
+✅ Duplicate check & audit logging
+✅ Monthly sheets + SUMMARY sheet auto-updated
+
+
+Relevant IFRS: IAS 1, IAS 2, IAS 16, IFRS 9
+
+
+---
 # 📌 Notes
 - All inputs must be in JSON format.  
 - Numeric fields allow string input (`"8%"`, `"0.08"`)  

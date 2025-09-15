@@ -347,6 +347,43 @@ node dist/mcp-server.js
 **설명 (KR):** CAPM에 성장률 보정을 결합하여 동적 위험 프리미엄을 평가합니다.  
 **Description (EN):** Adjusts CAPM pricing with real growth rates to dynamically evaluate risk premium.
 
+# 추가 기능(1.0.6 업데이트 이후 반영)
+
+## 📒 JOURNAL (이중언어 분개장 빌더)
+
+**설명:** 한국어(분개장)와 영어(journal) 형식의 회계 분개장을 Excel 파일로 자동 생성 및 관리합니다.  
+
+### 🔹 Input 예제
+```json
+{
+  "company": "세빛 주식회사",
+  "text": "2025-01-05 삼성전자 사무용품 50000원 카드 결제",
+  "options": {
+    "baseDir": "Desktop/journal_book",
+    "oneWorkbookPerYear": true
+  }
+}
+```
+
+🔹 Output 예제
+생성 파일명: 2025_journal.xlsx
+월별 시트 자동생성: 01 ~ 12
+감사 로그 파일: audit.log
+
+
+🔹 주요 기능
+✅ 자연어 기반 분개 입력 (한/영 지원)
+✅ 계정과목 자동 분류 (API + 휴리스틱)
+✅ 중복 체크 및 감사 로그 기록
+✅ 월별 시트 + 요약(SUMMARY) 시트 자동 갱신
+
+
+🔹 관련 IFRS
+IAS 1, IAS 2, IAS 16, IFRS 9
+
+
+---
+
 ### 🔹 Input 예제
 ```json
 {
