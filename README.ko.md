@@ -31,13 +31,13 @@ node dist/mcp-server.js
 {
   "mcpServers": {
     "sebit-mcp": {
-      "command": "node",
-      "args": ["C:/Users/user/sebit-mcp-public/dist/mcp-server.js"],
-      "cwd": "C:/Users/user/sebit-mcp-public"
+      "command": "C:\\Program Files\\nodejs\\node.exe",
+      "args": ["C:\\Users\\user\\sebit-mcp-public\\dist\\mcp-server.js"],
+      "cwd": "C:\\Users\\user\\sebit-mcp-public",
+      "optional": true
     }
   }
 }
-
 ```
 ---
 
@@ -50,16 +50,17 @@ node dist/mcp-server.js
 ### 🔹 Input 예제
 ```json
 {
-  "acquisitionCost": 100000,
-  "residualValue": 10000,
+  "acquisitionCost": 1200000,
+  "residualValue": 200000,
   "usefulLifeYears": 5,
-  "elapsedUseDays": 30,
-  "periodUseDays": 60,
-  "baselineUseHours": 100,
-  "totalUseHours": 105,
-  "beta": 0.3,
-  "psPrev": 120,
-  "psCurr": 108
+  "elapsedUseDays": 730,
+  "periodUseDays": 180,
+  "baselineUseHours": 2000,
+  "totalUseHours": 2300,
+  "beta": 0.4,
+  "psPrev": 115,
+  "psCurr": 108,
+  "marketChangeR": 0.03
 }
 ```
 
@@ -81,12 +82,12 @@ node dist/mcp-server.js
 ### 🔹 Input 예제
 ```json
 {
-  "acquisitionCost": 5000000,
-  "residualValue": 200000,
-  "leaseTermYears": 3,
-  "daysUsedThisPeriod": 180,
-  "totalDays": 365,
-  "discountRate": 0.06
+  "acquisitionCost": 8000000,
+  "residualValue": 300000,
+  "leaseTermYears": 4,
+  "daysUsedThisPeriod": 120,
+  "totalDays": 1460,
+  "discountRate": 0.055
 }
 ```
 
@@ -107,13 +108,13 @@ node dist/mcp-server.js
 ### 🔹 Input 예제
 ```json
 {
-  "cumulativeMiningDays": 300,
-  "cumulativeMinedValue": 1500,
-  "currentPeriodMiningDays": 30,
-  "currentPeriodMinedValue": 100,
-  "currentResourcePrice": 50,
-  "prevYearValuation": 1200,
-  "currentValuation": 1350
+  "cumulativeMiningDays": 1500,
+  "cumulativeMinedValue": 75000,
+  "currentPeriodMiningDays": 90,
+  "currentPeriodMinedValue": 5600,
+  "currentResourcePrice": 52,
+  "prevYearValuation": 68000,
+  "currentValuation": 73000
 }
 ```
 
@@ -135,13 +136,13 @@ node dist/mcp-server.js
 ### 🔹 Input 예제
 ```json
 {
-  "cumulativeUsage": 1200,
-  "unitCost": 15,
-  "periodDays": 30,
-  "totalUsage": 300,
-  "prevYearR": 0.08,
-  "beta": 0.9,
-  "years": 3
+  "cumulativeUsage": 15000,
+  "unitCost": 18.5,
+  "periodDays": 90,
+  "totalUsage": 1400,
+  "prevYearR": 0.06,
+  "beta": 0.8,
+  "years": 2
 }
 ```
 
@@ -163,11 +164,11 @@ node dist/mcp-server.js
 ### 🔹 Input 예제
 ```json
 {
-  "issueAmount": 1000000,
-  "scheduleDays": 365,
-  "elapsedDays": 90,
-  "prevMeasuredValue": 980000,
-  "discountRate": 0.05
+  "issueAmount": 50000000,
+  "scheduleDays": 1825,
+  "elapsedDays": 365,
+  "prevMeasuredValue": 48200000,
+  "discountRate": 0.047
 }
 ```
 
@@ -188,13 +189,13 @@ node dist/mcp-server.js
 ### 🔹 Input 예제
 ```json
 {
-  "dailyExpectedSettlement": 2000,
-  "usefulLifeYears": 5,
-  "elapsedDays": 400,
-  "actualSettlementToDate": 700000,
-  "interestRate": 0.06,
-  "clientExposure": 100000,
-  "totalExposure": 1000000
+  "dailyExpectedSettlement": 35000,
+  "usefulLifeYears": 6,
+  "elapsedDays": 450,
+  "actualSettlementToDate": 9200000,
+  "interestRate": 0.065,
+  "clientExposure": 60000000,
+  "totalExposure": 1500000000
 }
 ```
 
@@ -215,16 +216,16 @@ node dist/mcp-server.js
 ### 🔹 Input 예제
 ```json
 {
-  "baseRate": 0.02,
-  "badDebtIncidence": 0.01,
+  "baseRate": 0.05,
+  "badDebtIncidence": 0.02,
   "assumedDefaultRate": 0.03,
   "bondUnitPrice": 1000,
-  "bondVolume": 500,
-  "pastDebtorRecovery": 200,
-  "bondTurnoverPct": 0.5,
-  "stockTurnoverPct": 0.8,
-  "extraAdj": -0.005,
-  "maxValue": 0.35
+  "bondVolume": 60000,
+  "pastDebtorRecovery": 15000,
+  "bondTurnoverPct": 0.55,
+  "stockTurnoverPct": 0.72,
+  "extraAdj": -0.004,
+  "maxValue": 0.30
 }
 ```
 
@@ -246,13 +247,13 @@ node dist/mcp-server.js
 ### 🔹 Input 예제
 ```json
 {
-  "accountOCIAmount": 20000,
-  "totalOCIAllItems": 100000,
-  "openingOCIBalance": 50000,
-  "currentPeriodOCI": 7000,
-  "marketChangeR": 0.05,
-  "beta": 1.2,
-  "horizonYears": 3
+  "accountOCIAmount": 18000000,
+  "totalOCIAllItems": 92000000,
+  "openingOCIBalance": 50000000,
+  "currentPeriodOCI": 13500000,
+  "marketChangeR": 0.045,
+  "beta": 1.1,
+  "horizonYears": 4
 }
 ```
 
@@ -274,11 +275,11 @@ node dist/mcp-server.js
 ### 🔹 Input 예제
 ```json
 {
-  "prevYear_export_curr": 1000,
-  "prevYear_import_curr": 800,
-  "currYear_export_curr": 1200,
-  "currYear_import_curr": 900,
-  "currentExchangeRate": 1320
+  "prevYear_export_curr": 142000000,
+  "prevYear_import_curr": 108000000,
+  "currYear_export_curr": 160000000,
+  "currYear_import_curr": 120000000,
+  "currentExchangeRate": 1332
 }
 ```
 
@@ -299,10 +300,17 @@ node dist/mcp-server.js
 ### 🔹 Input 예제
 ```json
 {
-  "fixedCosts": [100, 120, 130],
-  "variableCosts": [200, 220, 250],
-  "currentRevenue": 500
-}
+    "fixedCosts": [920000000, 980000000, 1050000000, 1120000000,
+  1200000000],
+    "variableCosts": [450000000, 480000000, 520000000, 560000000,
+  600000000],
+    "currentRevenue": 2100000000,
+    "options": {
+      "language": "en",
+      "includeGraph": true,
+      "roundStep": 1000
+    }
+  }
 ```
 
 ### 🔹 결과 (요약)
@@ -323,10 +331,12 @@ node dist/mcp-server.js
 ### 🔹 Input 예제
 ```json
 {
-  "previousYearGrowthRate": 0.24,
-  "previousYearDeclineRate": 0.12,
-  "currentYearGrowthYTD": 0.08,
-  "currentCryptocurrencyValue": 35000
+  "previousYearGrowthRate": 0.42,
+  "previousYearDeclineRate": 0.10,
+  "currentYearGrowthYTD": 0.25,
+  "currentYearDeclineYTD": 0.07,
+  "currentCryptocurrencyValue": 48000,
+  "horizonMonths": 24
 }
 ```
 
@@ -347,8 +357,30 @@ node dist/mcp-server.js
 **설명 (KR):** CAPM에 성장률 보정을 결합하여 동적 위험 프리미엄을 평가합니다.  
 **Description (EN):** Adjusts CAPM pricing with real growth rates to dynamically evaluate risk premium.
 
-# 추가 기능(1.0.6 업데이트 이후 반영)
+### 🔹 Input 예제
+```json
+{
+  "riskFreeRate": 0.025,
+  "marketReturn": 0.082,
+  "beta": 1.38,
+  "RS": 0.15,
+  "realGrowthPct": 0.039
+}
+```
 
+### 🔹 결과 (요약)
+- CAPM 수식 기반 기대수익 계산  
+- RS 및 성장률 보정 반영  
+- 최종 위험조정 수익률 산출
+
+### 관련조문 (IFRS)
+- IFRS 13.61~66 시장 참여자가 사용하는 할인율/위험프리미엄 산정 근거
+- IAS 36.55~57 현금흐름 할인할 때 CAPM 같은 모델 사용가능 (할인율 추정의 한 방법).
+- IAS 19.83 연금부채 할인율에 적용 시 CAPM 응용.
+
+---
+
+# 추가 기능(1.0.6 업데이트 이후 반영)
 ## 📒 JOURNAL (이중언어 분개장 빌더)
 
 **설명:** 한국어(분개장)와 영어(journal) 형식의 회계 분개장을 Excel 파일로 자동 생성 및 관리합니다.  
@@ -357,7 +389,7 @@ node dist/mcp-server.js
 ```json
 {
   "company": "세빛 주식회사",
-  "text": "2025-01-05 삼성전자 사무용품 50000원 카드 결제",
+  "text": "2025-03-20 LG전자 사무용품 2,500,000원 카드 결제",
   "options": {
     "baseDir": "Desktop/journal_book",
     "oneWorkbookPerYear": true
@@ -381,29 +413,35 @@ node dist/mcp-server.js
 🔹 관련 IFRS
 IAS 1, IAS 2, IAS 16, IFRS 9
 
-
 ---
 
-### 🔹 Input 예제
+## TCT-BEAM 삼각함수 그래프
+고정비와 변동비를 삼각함수 벡터로 표현하여 손익분기점과 수익 민감도를 시각화합니다.  
+실행 시 자동으로 SVG/PNG 그래프가 생성됩니다.  
+
+🔹 사용 예시
 ```json
 {
-  "riskFreeRate": 0.02,
-  "marketReturn": 0.08,
-  "beta": 1.1,
-  "RS": 0.9,
-  "realGrowthPct": 0.045
+  "fixedCosts": [850000000, 920000000, 995000000],
+  "variableCosts": [420000000, 445000000, 485000000],
+  "currentRevenue": 1850000000,
+  "options": { "chart": true, "outputDir": "./reports" }
 }
 ```
+출력 예시: beam_graph.svg
 
-### 🔹 결과 (요약)
-- CAPM 수식 기반 기대수익 계산  
-- RS 및 성장률 보정 반영  
-- 최종 위험조정 수익률 산출
+---
+## 자동 보고서 생성
+세션 실행 결과를 자동으로 PDF 보고서로 생성합니다.
+보고서에는 다음 내용이 포함됩니다:
 
-### 관련조문 (IFRS)
-- IFRS 13.61~66 시장 참여자가 사용하는 할인율/위험프리미엄 산정 근거
-- IAS 36.55~57 현금흐름 할인할 때 CAPM 같은 모델 사용가능 (할인율 추정의 한 방법).
-- IAS 19.83 연금부채 할인율에 적용 시 CAPM 응용.
+✅실행 로그
+✅리스크 등급 분류 (저위험 / 중위험 / 고위험)
+✅실행 로드맵 (24시간 / 1주 / 1개월)
+✅IFRS 관련 기준 참조
+
+🔹 출력 예시
+SEBIT-MCP-Report_2025-09-17_17-03-50.pdf
 
 ---
 

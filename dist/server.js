@@ -11,6 +11,7 @@ exports.modelNames = void 0;
 const mcp_js_1 = require("@modelcontextprotocol/sdk/server/mcp.js");
 const stdio_js_1 = require("@modelcontextprotocol/sdk/server/stdio.js");
 const zod_1 = require("zod");
+const logger_1 = require("./logger");
 const models_1 = require("./models");
 exports.modelNames = [
     'dda', 'lam', 'rvm', 'ceem', 'bdm', 'belm', 'cprm', 'ocim', 'farex', 'tctbeam', 'cpmrv', 'dcbpra'
@@ -90,8 +91,12 @@ if (!g.__SEBIT_MCP_REGISTERED__) {
         };
     });
 }
+// 로그 시스템 초기화
+logger_1.Logger.init();
+logger_1.Logger.info('SEBIT MCP Server (legacy) starting...');
 const transport = new stdio_js_1.StdioServerTransport();
 server.connect(transport).then(() => {
-    // eslint-disable-next-line no-console
-    console.error('[sebit-mcp] MCP stdio server ready');
+    logger_1.Logger.info('SEBIT MCP Server (legacy) connected and ready');
+}).catch((error) => {
+    logger_1.Logger.error('Failed to connect MCP Server (legacy)', error);
 });

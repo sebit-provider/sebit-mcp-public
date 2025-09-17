@@ -30,9 +30,10 @@ This framework is MCP-based. To integrate with Claude Desktop (or other MCP clie
 {
   "mcpServers": {
     "sebit-mcp": {
-      "command": "node",
-      "args": ["C:/Users/user/sebit-mcp-public/dist/mcp-server.js"],
-      "cwd": "C:/Users/user/sebit-mcp-public"
+      "command": "C:\\Program Files\\nodejs\\node.exe",
+      "args": ["C:\\Users\\user\\sebit-mcp-public\\dist\\mcp-server.js"],
+      "cwd": "C:\\Users\\user\\sebit-mcp-public",
+      "optional": true
     }
   }
 }
@@ -48,16 +49,17 @@ This framework is MCP-based. To integrate with Claude Desktop (or other MCP clie
 ### 🔹 Input example
 ```json
 {
-  "acquisitionCost": 100000,
-  "residualValue": 10000,
+  "acquisitionCost": 1200000,
+  "residualValue": 200000,
   "usefulLifeYears": 5,
-  "elapsedUseDays": 30,
-  "periodUseDays": 60,
-  "baselineUseHours": 100,
-  "totalUseHours": 105,
-  "beta": 0.3,
-  "psPrev": 120,
-  "psCurr": 108
+  "elapsedUseDays": 730,
+  "periodUseDays": 180,
+  "baselineUseHours": 2000,
+  "totalUseHours": 2300,
+  "beta": 0.4,
+  "psPrev": 115,
+  "psCurr": 108,
+  "marketChangeR": 0.03
 }
 ```
 
@@ -76,12 +78,12 @@ This framework is MCP-based. To integrate with Claude Desktop (or other MCP clie
 ### 🔹 Input example
 ```json
 {
-  "acquisitionCost": 5000000,
-  "residualValue": 200000,
-  "leaseTermYears": 3,
-  "daysUsedThisPeriod": 180,
-  "totalDays": 365,
-  "discountRate": 0.06
+  "acquisitionCost": 8000000,
+  "residualValue": 300000,
+  "leaseTermYears": 4,
+  "daysUsedThisPeriod": 120,
+  "totalDays": 1460,
+  "discountRate": 0.055
 }
 ```
 
@@ -99,13 +101,13 @@ This framework is MCP-based. To integrate with Claude Desktop (or other MCP clie
 ### 🔹 Input example
 ```json
 {
-  "cumulativeMiningDays": 300,
-  "cumulativeMinedValue": 1500,
-  "currentPeriodMiningDays": 30,
-  "currentPeriodMinedValue": 100,
-  "currentResourcePrice": 50,
-  "prevYearValuation": 1200,
-  "currentValuation": 1350
+  "cumulativeMiningDays": 1500,
+  "cumulativeMinedValue": 75000,
+  "currentPeriodMiningDays": 90,
+  "currentPeriodMinedValue": 5600,
+  "currentResourcePrice": 52,
+  "prevYearValuation": 68000,
+  "currentValuation": 73000
 }
 ```
 
@@ -123,13 +125,13 @@ This framework is MCP-based. To integrate with Claude Desktop (or other MCP clie
 ### 🔹 Input example
 ```json
 {
-  "cumulativeUsage": 1200,
-  "unitCost": 15,
-  "periodDays": 30,
-  "totalUsage": 300,
-  "prevYearR": 0.08,
-  "beta": 0.9,
-  "years": 3
+  "cumulativeUsage": 15000,
+  "unitCost": 18.5,
+  "periodDays": 90,
+  "totalUsage": 1400,
+  "prevYearR": 0.06,
+  "beta": 0.8,
+  "years": 2
 }
 ```
 
@@ -147,11 +149,11 @@ This framework is MCP-based. To integrate with Claude Desktop (or other MCP clie
 ### 🔹 Input example
 ```json
 {
-  "issueAmount": 1000000,
-  "scheduleDays": 365,
-  "elapsedDays": 90,
-  "prevMeasuredValue": 980000,
-  "discountRate": 0.05
+  "issueAmount": 50000000,
+  "scheduleDays": 1825,
+  "elapsedDays": 365,
+  "prevMeasuredValue": 48200000,
+  "discountRate": 0.047
 }
 ```
 
@@ -169,13 +171,13 @@ This framework is MCP-based. To integrate with Claude Desktop (or other MCP clie
 ### 🔹 Input example
 ```json
 {
-  "dailyExpectedSettlement": 2000,
-  "usefulLifeYears": 5,
-  "elapsedDays": 400,
-  "actualSettlementToDate": 700000,
-  "interestRate": 0.06,
-  "clientExposure": 100000,
-  "totalExposure": 1000000
+  "dailyExpectedSettlement": 35000,
+  "usefulLifeYears": 6,
+  "elapsedDays": 450,
+  "actualSettlementToDate": 9200000,
+  "interestRate": 0.065,
+  "clientExposure": 60000000,
+  "totalExposure": 1500000000
 }
 ```
 
@@ -193,16 +195,16 @@ This framework is MCP-based. To integrate with Claude Desktop (or other MCP clie
 ### 🔹 Input example
 ```json
 {
-  "baseRate": 0.02,
-  "badDebtIncidence": 0.01,
+  "baseRate": 0.05,
+  "badDebtIncidence": 0.02,
   "assumedDefaultRate": 0.03,
   "bondUnitPrice": 1000,
-  "bondVolume": 500,
-  "pastDebtorRecovery": 200,
-  "bondTurnoverPct": 0.5,
-  "stockTurnoverPct": 0.8,
-  "extraAdj": -0.005,
-  "maxValue": 0.35
+  "bondVolume": 60000,
+  "pastDebtorRecovery": 15000,
+  "bondTurnoverPct": 0.55,
+  "stockTurnoverPct": 0.72,
+  "extraAdj": -0.004,
+  "maxValue": 0.30
 }
 ```
 
@@ -220,13 +222,13 @@ This framework is MCP-based. To integrate with Claude Desktop (or other MCP clie
 ### 🔹 Input example
 ```json
 {
-  "accountOCIAmount": 20000,
-  "totalOCIAllItems": 100000,
-  "openingOCIBalance": 50000,
-  "currentPeriodOCI": 7000,
-  "marketChangeR": 0.05,
-  "beta": 1.2,
-  "horizonYears": 3
+  "accountOCIAmount": 18000000,
+  "totalOCIAllItems": 92000000,
+  "openingOCIBalance": 50000000,
+  "currentPeriodOCI": 13500000,
+  "marketChangeR": 0.045,
+  "beta": 1.1,
+  "horizonYears": 4
 }
 ```
 
@@ -244,11 +246,11 @@ This framework is MCP-based. To integrate with Claude Desktop (or other MCP clie
 ### 🔹 Input example
 ```json
 {
-  "prevYear_export_curr": 1000,
-  "prevYear_import_curr": 800,
-  "currYear_export_curr": 1200,
-  "currYear_import_curr": 900,
-  "currentExchangeRate": 1320
+  "prevYear_export_curr": 142000000,
+  "prevYear_import_curr": 108000000,
+  "currYear_export_curr": 160000000,
+  "currYear_import_curr": 120000000,
+  "currentExchangeRate": 1332
 }
 ```
 
@@ -266,10 +268,17 @@ This framework is MCP-based. To integrate with Claude Desktop (or other MCP clie
 ### 🔹 Input example
 ```json
 {
-  "fixedCosts": [100, 120, 130],
-  "variableCosts": [200, 220, 250],
-  "currentRevenue": 500
-}
+    "fixedCosts": [920000000, 980000000, 1050000000, 1120000000,
+  1200000000],
+    "variableCosts": [450000000, 480000000, 520000000, 560000000,
+  600000000],
+    "currentRevenue": 2100000000,
+    "options": {
+      "language": "en",
+      "includeGraph": true,
+      "roundStep": 1000
+    }
+  }
 ```
 
 - Conversion of costs into angular representation  
@@ -286,10 +295,12 @@ This framework is MCP-based. To integrate with Claude Desktop (or other MCP clie
 ### 🔹 Input example
 ```json
 {
-  "previousYearGrowthRate": 0.24,
-  "previousYearDeclineRate": 0.12,
-  "currentYearGrowthYTD": 0.08,
-  "currentCryptocurrencyValue": 35000
+  "previousYearGrowthRate": 0.42,
+  "previousYearDeclineRate": 0.10,
+  "currentYearGrowthYTD": 0.25,
+  "currentYearDeclineYTD": 0.07,
+  "currentCryptocurrencyValue": 48000,
+  "horizonMonths": 24
 }
 ```
 
@@ -307,11 +318,11 @@ This framework is MCP-based. To integrate with Claude Desktop (or other MCP clie
 ### 🔹 Input example
 ```json
 {
-  "riskFreeRate": 0.02,
-  "marketReturn": 0.08,
-  "beta": 1.1,
-  "RS": 0.9,
-  "realGrowthPct": 0.045
+  "riskFreeRate": 0.025,
+  "marketReturn": 0.082,
+  "beta": 1.38,
+  "RS": 0.15,
+  "realGrowthPct": 0.039
 }
 ```
 
@@ -328,18 +339,18 @@ This framework is MCP-based. To integrate with Claude Desktop (or other MCP clie
 Description: Generates and maintains accounting journals in Excel format with Korean (분개장) and English (journal) ledgers.
 
 🔹 Input example
-
+```json
 {
   "company": "SEBIT Corp",
-  "text": "2025-01-05 Samsung Electronics office supplies 50000 KRW paid by card",
+  "text": "2025-03-20 LG Electronics laptop purchase 2,500,000 KRW paid by bank transfer",
   "options": {
     "baseDir": "Desktop/journal_book",
     "oneWorkbookPerYear": true
   }
 }
+```
 
 🔹 Output example
-
 output filename: 2025_journal.xlsx
 Monthly sheets: 01 … 12
 Audit log: audit.log
@@ -356,6 +367,42 @@ Relevant IFRS: IAS 1, IAS 2, IAS 16, IFRS 9
 
 
 ---
+
+## TCT-BEAM Trigonometric Graphs(Added 1.0.7)
+Visualizes fixed and variable costs as trigonometric vectors.
+Provides a break-even chart with angle sensitivity (θ) and revenue-performance visualization.
+Output: SVG/PNG charts auto-generated for each run.
+
+
+🔹 Example usage
+
+```json
+{
+  "fixedCosts": [850000000, 920000000, 995000000],
+  "variableCosts": [420000000, 445000000, 485000000],
+  "currentRevenue": 1850000000,
+  "options": { "chart": true, "outputDir": "./reports" }
+}
+```
+
+Output: beam_graph.svg
+
+---
+## Automated Report Generation(Added 1.0.7)
+
+Generates a structured PDF report for each MCP session.
+
+Includes:
+✅Model execution logs
+✅Aggregated risk classification (Low / Medium / High)
+✅Strategic roadmap (24h, 1 week, 1 month)
+✅IFRS references
+
+🔹 Example output
+SEBIT-MCP-Report_2025-09-17_17-03-50.pdf
+
+---
+
 # 📌 Notes
 - All inputs must be in JSON format.  
 - Numeric fields allow string input (`"8%"`, `"0.08"`)  

@@ -1,6 +1,6 @@
 {
   "name": "sebit-mcp-public",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "main": "dist/mcp-server.js",
   "type": "commonjs",
   "license": "SPL v1.0",
@@ -36,6 +36,10 @@
     "cors": "^2.8.5",
     "dayjs": "^1.11.18",
     "express": "^5.1.0",
+    "fs-extra": "^11.3.2",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^3.0.2",
+    "puppeteer": "^24.21.0",
     "xlsx": "^0.18.5",
     "zod": "^3.25.76"
   }
