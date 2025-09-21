@@ -33,7 +33,7 @@ const last = (arr) => arr && arr.length ? nz(arr[arr.length - 1], 0) : undefined
 const getGraphLabels = (lang) => {
     if (lang === 'en') {
         return {
-            title: 'TCT-BEAM Analysis: Trigonometric Cost Tracking & Break-Even Analysis',
+            title: 'TCT-BEAM Analysis: Trigonometric Cost Tracking &amp; Break-Even Analysis',
             subtitle: 'Fixed/Variable Cost Ratio Analysis with Angular Transformation',
             xAxisTitle: 'Angle (degrees)',
             yAxisTitle: 'Cost Amount',
@@ -51,7 +51,7 @@ const getGraphLabels = (lang) => {
     }
     else {
         return {
-            title: 'TCT-BEAM 분석: 삼각함수 비용추적 및 손익분기점 분석',
+            title: 'TCT-BEAM 분석: 삼각함수 비용추적 &amp; 손익분기점 분석',
             subtitle: '고정비/변동비 비율의 각도 변환 분석',
             xAxisTitle: '각도 (도)',
             yAxisTitle: '비용 금액',

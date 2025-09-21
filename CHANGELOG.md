@@ -35,3 +35,11 @@ and this project adheres to **Sebit Public License v1.0 (SPL-1.0)**.
 
 ### Fixed
 - Minor stability improvements for MCP session handling.
+
+## [1.0.8] - 2025-09-21
+### Added
+- **Natural language journal entry**: Users can input without JSON (auto parsing & classification).
+
+
+### Fixed
+- TCT-BEAM graph rendering issue.

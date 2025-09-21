@@ -350,11 +350,15 @@ Description: Generates and maintains accounting journals in Excel format with Ko
 }
 ```
 
+Natural Language Journal Entry(Updated at v1.0.8): You can now generate accounting journal entries without writing JSON. Just type a natural language sentence in English or Korean, and the system will parse and classify automatically.
+```
+I purchase LG Electronics laptop 2,500,000 KRW, paid by bank transfer.
+```
+
 🔹 Output example
 output filename: 2025_journal.xlsx
 Monthly sheets: 01 … 12
 Audit log: audit.log
-
 
 Features:
 ✅ Natural language → Journal entry (ko/en)
